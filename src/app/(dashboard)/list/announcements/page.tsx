@@ -44,7 +44,7 @@ const AnnouncementsListPage = () => {
           <div className='flex items-center gap-2'>
             <Link href={`/list/teachers/${item.id}`}>
               <button className='flex items-center justify-center rounded-full w-7 h-7 bg-lamaSky'>
-                <Image src='/edit.png' alt='' width={16} height={16} />
+                <Image src='/update.png' alt='' width={16} height={16} />
               </button>
             </Link>
             {role === 'admin' && (
@@ -76,7 +76,7 @@ const AnnouncementsListPage = () => {
             </button>
             {role === 'admin' && (
               <button className='flex items-center justify-center w-8 h-8 rounded-full bg-lamaYellow'>
-                <Image src='/plus.png' alt='' width={14} height={14} />
+                <Image src='/create.png' alt='' width={14} height={14} />
               </button>
             )}
           </div>
