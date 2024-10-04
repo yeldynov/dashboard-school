@@ -1,14 +1,14 @@
-// type Teacher = {
-//   id: number
-//   teacherId: string
-//   name: string
-//   email?: string
-//   photo: string
-//   phone: string
-//   subjects: string[]
-//   classes: string[]
-//   address: string
-// }
+type Teacher = {
+  id: number
+  teacherId: string
+  name: string
+  email?: string
+  photo: string
+  phone: string
+  subjects: string[]
+  classes: string[]
+  address: string
+}
 
 type Student = {
   id: number
@@ -37,13 +37,13 @@ type Subject = {
   teachers: string[]
 }
 
-// type Class = {
-//   id: number
-//   name: string
-//   capacity: string
-//   grade: string
-//   supervisor: string
-// }
+type Class = {
+  id: number
+  name: string
+  capacity: string
+  grade: string
+  supervisor: string
+}
 
 type Lesson = {
   id: number
