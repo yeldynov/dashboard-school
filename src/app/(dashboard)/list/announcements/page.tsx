@@ -7,8 +7,6 @@ import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
 import { Announcement, Class, Prisma } from '@prisma/client'
 import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
 
 type AnnouncementList = Announcement & { class: Class }
 
