@@ -1,5 +1,11 @@
 import React from 'react'
 
+type Column = {
+  header: string
+  accessor: string
+  className?: string
+}
+
 const Table = ({
   columns,
   renderRow,
