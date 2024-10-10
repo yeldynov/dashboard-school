@@ -2,7 +2,7 @@ import FormModal from '@/components/FormModal'
 import Pagination from '@/components/Pagination'
 import Table from '@/components/Table'
 import TableSearch from '@/components/TableSearch'
-import { role } from '@/lib/data'
+import { currentUserId, role } from '@/lib/utils'
 import prisma from '@/lib/prisma'
 import { ITEM_PER_PAGE } from '@/lib/settings'
 import { Prisma, Result } from '@prisma/client'
@@ -54,6 +54,14 @@ const columns = [
     header: 'Actions',
     accessor: 'actions',
   },
+  ...(role === 'admin' || role === 'teacher'
+    ? [
+        {
+          header: 'Actions',
+          accessor: 'actions',
+        },
+      ]
+    : []),
 ]
 
 const renderRow = (item: ResultList) => {
@@ -78,7 +86,7 @@ const renderRow = (item: ResultList) => {
       </td>
       <td>
         <div className='flex items-center gap-2'>
-          {role === 'admin' && (
+          {(role === 'admin' || role === 'teacher') && (
             <>
               <FormModal table='result' type='update' data={item} />
               <FormModal table='result' type='delete' id={item.id} />
@@ -99,7 +107,7 @@ const ResultsListPage = async ({
 
   const p = page ? parseInt(page) : 1
 
-  // URL PARAMS CONDITIONS
+  // URL PARAMS CONDITIONS (SEARCH)
 
   const query: Prisma.ResultWhereInput = {}
 
@@ -121,6 +129,32 @@ const ResultsListPage = async ({
             break
         }
       }
+    }
+
+    // ROLE CONDITIONS
+    switch (role) {
+      case 'admin':
+        break
+
+      case 'teacher':
+        query.OR = [
+          { exam: { lesson: { teacherId: currentUserId! } } },
+          { assignment: { lesson: { teacherId: currentUserId! } } },
+        ]
+        break
+
+      case 'student':
+        query.studentId = currentUserId!
+        break
+
+      case 'parent':
+        query.student = {
+          parentId: currentUserId!,
+        }
+        break
+
+      default:
+        break
     }
 
     const [dataResponse, count] = await prisma.$transaction([
@@ -192,7 +226,9 @@ const ResultsListPage = async ({
               <button className='flex items-center justify-center w-8 h-8 rounded-full bg-lamaYellow'>
                 <Image src='/sort.png' alt='' width={14} height={14} />
               </button>
-              {role === 'admin' && <FormModal table='result' type='create' />}
+              {(role === 'admin' || role === 'teacher') && (
+                <FormModal table='result' type='create' />
+              )}
             </div>
           </div>
         </div>
